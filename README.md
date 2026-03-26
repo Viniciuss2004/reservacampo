@@ -6,19 +6,28 @@ O projeto ainda está em fase inicial de desenvolvimento e **novas funcionalidad
 
 Este repositório será atualizado conforme o progresso do desenvolvimento.
 
-## Configurando variaveis de ambiente no IntelliJ IDEA
+## ⚙️ Configurando variáveis de ambiente no IntelliJ IDEA
 
-1. No topo da IDE, clique no seletor de configuração (ao lado do botão ▶ Run) e selecione Edit Configurations...
+1. No topo da IDE, clique no seletor de configuração (ao lado do botão ▶ Run) e selecione **Edit Configurations...**
+
 2. No painel esquerdo, selecione sua aplicação Spring Boot.
-3. Localize o campo Environment variables e clique no ícone 📁 à direita do campo.
-4. Na janela que abrir, clique em + e adicione cada variável:
-DB_URL_POSTGRES = jdbc:postgresql://localhost:5432/nome_do_banco
-DB_USER_POSTGRES = postgres
-DB_PASSWORD = sua_senha
 
-⚠️ Substitua nome_do_banco, postgres e sua_senha pelos valores reais do seu ambiente.
+3. Clique em `modify options`.
 
-5. Clique em OK → Apply → OK.
+4. Localize o campo **Environment variables** e clique no ícone 📁 à direita do campo.
+
+5. Na janela que abrir, clique em **+** e adicione cada variável:
+
+```env
+DB_URL_POSTGRES=jdbc:postgresql://localhost:5432/nome_do_banco
+DB_USER_POSTGRES=postgres
+DB_PASSWORD=sua_senha
+```
+
+⚠️ **Substitua** `nome_do_banco`, `postgres` e `sua_senha` pelos valores reais do seu ambiente.
+
+5. Clique em **OK → Apply → OK**.
+
 6. Rode a aplicação normalmente. O Spring Boot irá injetar os valores automaticamente.
 
 ## Status do Projeto
