@@ -21,6 +21,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Dar permissão de execução ao mvnw
+        run: chmod +x mvnw
+
       - name: Build e Testes
         run: ./mvnw clean verify -Dspring.profiles.active=test
 
