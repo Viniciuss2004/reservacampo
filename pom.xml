@@ -78,6 +78,36 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.15.0</version>
+				<configuration>
+					<workingDirectory>src/main/frontend</workingDirectory>
+					<nodeVersion>v24.14.1</nodeVersion>
+				</configuration>
+				<executions>
+					<!-- Instala Node e npm automaticamente -->
+					<execution>
+						<id>install-node-and-npm</id>
+						<goals><goal>install-node-and-npm</goal></goals>
+					</execution>
+					<!-- Instala dependências -->
+					<execution>
+						<id>npm-install</id>
+						<goals><goal>npm</goal></goals>
+					</execution>
+					<!-- Roda o build do React -->
+					<execution>
+						<id>npm-build</id>
+						<goals><goal>npm</goal></goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
