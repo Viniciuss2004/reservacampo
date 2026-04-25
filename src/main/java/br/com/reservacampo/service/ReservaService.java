@@ -94,6 +94,39 @@ public class ReservaService {
         return toResponseDTO(atualizada);
     }
 
+    @Transactional
+    public ReservaResponseDTO atualizar(Long id, ReservaRequestDTO dto) {
+        validarHorarios(dto);
+        Reserva reserva = buscarEntidadePorId(id);
+
+        Quadra quadra = quadraService.buscarEntidadePorId(dto.getQuadraId());
+        Usuario usuario = usuarioService.buscarEntidadePorId(dto.getUsuarioId());
+
+        boolean conflito = reservaRepository.existsConflito(dto.getQuadraId(), dto.getDataHoraInicio(), dto.getDataHoraFim());
+        if (conflito && (!reserva.getQuadra().getId().equals(dto.getQuadraId()) || !reserva.getDataHoraInicio().equals(dto.getDataHoraInicio()))) {
+            throw new ReservaConflictException("Já existe uma reserva para esta quadra no horário solicitado");
+        }
+
+        BigDecimal valorTotal = calcularValorTotal(dto, quadra);
+
+        reserva.setQuadra(quadra);
+        reserva.setUsuario(usuario);
+        reserva.setDataHoraInicio(dto.getDataHoraInicio());
+        reserva.setDataHoraFim(dto.getDataHoraFim());
+        reserva.setValorTotal(valorTotal);
+
+        Reserva atualizada = reservaRepository.save(reserva);
+        return toResponseDTO(atualizada);
+    }
+
+    @Transactional
+    public void deletar(Long id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Reserva não encontrada com id: " + id);
+        }
+        reservaRepository.deleteById(id);
+    }
+
     private void validarHorarios(ReservaRequestDTO dto) {
         if (!dto.getDataHoraFim().isAfter(dto.getDataHoraInicio())) {
             throw new HorarioInvalidoException(

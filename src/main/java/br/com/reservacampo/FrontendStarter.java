@@ -29,9 +29,15 @@ public class FrontendStarter {
             ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "npm run dev");
             pb.directory(frontendDir);
             pb.inheritIO();
+
+            Process process = pb.start();
             
-            pb.start();
-            
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                logger.info("Encerrando os processos do frontend (Vite/Node)...");
+                process.descendants().forEach(ProcessHandle::destroyForcibly);
+                process.destroyForcibly();
+            }));
+
             logger.info("Frontend (Vite) foi iniciado! Acesse http://localhost:5173");
 
         } catch (IOException e) {
@@ -39,4 +45,3 @@ public class FrontendStarter {
         }
     }
 }
-
