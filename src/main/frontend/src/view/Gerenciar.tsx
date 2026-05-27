@@ -93,15 +93,18 @@ const Gerenciar = () => {
       ]);
       
       if (resUsers.ok) {
-        const data: Usuario[] = await resUsers.json();
+        const response = await resUsers.json();
+        const data: Usuario[] = response.content || response;
         setUsuarios(data.sort((a, b) => a.nome.localeCompare(b.nome)));
       }
       if (resQuadras.ok) {
-        const data: Quadra[] = await resQuadras.json();
+        const response = await resQuadras.json();
+        const data: Quadra[] = response.content || response;
         setQuadras(data.sort((a, b) => a.nome.localeCompare(b.nome)));
       }
       if (resReservas.ok) {
-        const data: Reserva[] = await resReservas.json();
+        const response = await resReservas.json();
+        const data: Reserva[] = response.content || response;
         setReservas(data.sort((a, b) => a.quadraNome.localeCompare(b.quadraNome)));
       }
     } catch (error) {
