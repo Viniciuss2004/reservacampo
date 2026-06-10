@@ -1,0 +1,19 @@
+name: Testes BDD
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Instalar dependências e rodar Cucumber
+        working-directory: ./src/main/frontend
+        run: |
+          npm install
+          npx cucumber-js features/
+
